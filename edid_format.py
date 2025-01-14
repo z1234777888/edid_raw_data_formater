@@ -164,24 +164,24 @@ class EDIDReaderGUI(QMainWindow):
             # Function to extract hex values from different input formats
             def extract_hex(text):
                 # Remove existing formatting
-                text = re.sub(r"0x|\s|-|00000000|,", "", text)
+                text = re.sub(r"0x|\s|-|,", "", text)
                 return [text[i : i + 2] for i in range(0, len(text), 2)]
 
             # Extract hex bytes
             hex_bytes = extract_hex(raw_edid_text)
 
             # Validate EDID length
-            # if len(hex_bytes) % 128 != 0:
-            #     raise ValueError("EDID length must be a multiple of 128 bytes")
+            if len(hex_bytes) % 128 != 0:
+                raise ValueError("EDID length must be a multiple of 128 bytes")
 
-            # # Validate EDID header
-            # expected_header = ["00", "FF", "FF", "FF", "FF", "FF", "FF", "00"]
-            # if len(hex_bytes) >= 8:  # Make sure we have enough bytes to check
-            #     actual_header = [byte.upper() for byte in hex_bytes[:8]]
-            #     if actual_header != expected_header:
-            #         raise ValueError(
-            #             "Invalid EDID header: expecting 00 FF FF FF FF FF FF 00"
-            #         )
+            # Validate EDID header
+            expected_header = ["00", "FF", "FF", "FF", "FF", "FF", "FF", "00"]
+            if len(hex_bytes) >= 8:  # Make sure we have enough bytes to check
+                actual_header = [byte.upper() for byte in hex_bytes[:8]]
+                if actual_header != expected_header:
+                    raise ValueError(
+                        "Invalid EDID header: expecting 00 FF FF FF FF FF FF 00"
+                    )
 
             # Format the hex bytes according to user preferences
             formatted_edid = ""
