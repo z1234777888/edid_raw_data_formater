@@ -30,7 +30,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='EDID Formater V1.0',
+    name='EDID Formater V1.1(have dont care rules)',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
