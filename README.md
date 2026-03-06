@@ -6,47 +6,40 @@
 
 <!-- markdownlint-disable MD033 -->
 <details>
-<summary>沒有EDID解析器請看這裡</summary>
+<summary>沒有EDID解析器需手動抓取資料</summary>
 
-## 開始之前
+## 取得EDID登錄在windows的reg檔案
 
-取得EDID登錄在windows的reg檔案
-
-1. `win+R` 輸入`regedit`打開登錄檔，找到以下路徑
+1. `win+R` 輸入`regedit`打開登錄檔，填入以下路徑位置
 
         電腦\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\DISPLAY
-    <img src="./picture/image.png" width="400">
+    <img src="./picture/image.png" width="600">
 
-    這些都是顯示器的名稱，前三碼為`製造商ID`，後四碼為`產品名稱`
+    這些都是顯示器的名稱，前三碼為`製造商ID`，後四碼為`產品名稱或編號`
 
-2. 以`SAM7176`為例，打開後會看到兩個名稱很長的資料夾
+2. 以`SAM7176`為例，依序點擊路徑到`Device Parameters`，你會看到`EDID`出現在右方欄位
 
-    <img src="./picture/image_2.png" width="400">
+    <img src="./picture/image_1.png" width="600">
 
-    `UID4145`與`UID8261`，在我的筆電上分別代表HDMI與DP介面，其他電腦我不確定名稱是否相同
+    `UID4145`與`UID8261`，在我的筆電上分別代表HDMI與DP介面，
+    打開後會出現所有讀取的資料，不同的UID代表不同的註冊方式，其他UID代表甚麼介面請自行驗證~
 
-3. 點選其中一個資料夾，選擇`Device Parameters`
+3. 點選`EDID`後，點選左上方的`檔案 > 匯出`
 
-    你會看到`EDID`出現在右方欄位
+    <img src="./picture/image_2.png" width="600">
 
-    <img src="./picture/image_3.png" width="1000">
+4. 選擇匯出檔案的位置(以桌面為例)，選擇匯出格式為`文字檔案(*.txt)`，輸入任何儲存名稱並按下`存檔`
+    <img src="./picture/image_3.png" width="600">
+5. 到儲存位置(以桌面為例)查看你的匯出檔案
 
-4. 匯出資料，左上方工具列選擇`檔案->匯出`
+    <img src="./picture/image_4.png" width="600">
 
-    <img src="./picture/image_5.png" width="450">
+</details>
 
-5. 存檔類型選擇`文字檔案*.txt`，避免妳沒有編輯器可以看內容
+<details>
+<summary>編輯EDID原始的登錄檔案</summary>
 
-    <img src="./picture/image_4.png" width="550">
-
-    <img src="./picture/image-4.png" alt="save type" width="500">
-6. 完成EDID原始資料的匯出
-
-    <img src="./picture/image_6.png" width="1000">
-
-## 編輯EDID原始檔案
-
-上一章節提到如何得到EDID檔案，這一章節告訴你如何將它改成實用的EDID檔案
+上一章節提到如何得到EDID檔案，這一章節告訴你如何將它改成實用的EDID文件
 
 * 這是一個Samsung顯示器的EDID登錄檔
 
@@ -134,6 +127,27 @@
 </details>
 <!-- markdownlint-enable MD033 -->
 
+## 下載應用程式
+
+* [EDID格式化工具 v1.1.exe](<dist/EDID格式化工具 v1.1.exe>)(35MB) - 下載即用
+
+## What's New
+
+### 現在可以改變換行的字節單位(更新於v1.1)
+
+每16字節換行
+
+<img src="./picture/image_14.png" width="600">
+
+每8字節換行
+
+<img src="./picture/image_15.png" width="600">
+
+### 加大的`Format!`
+
+調配功能方塊的配置位置，加大`Format`按鍵
+<img src="./picture/image_20.png" width="1000">
+
 ## 介面
 
 * 應用程式圖示
@@ -144,7 +158,7 @@
 
     <img src="./picture/image_8.png" width="600">
 
-## How to use EDID格式化工具
+## How to use
 
 * 貼上你的EDID，選擇想要的功能，接著按下`Format!`
 
@@ -154,28 +168,45 @@
 
     <img src="./picture/image_10.png" width="600">
 
-* 現在可以改變換行的字節單位(更新於v1.1)
-
-    每16字節換行
-
-    <img src="./picture/image_14.png" width="600">
-
-    每8字節換行
-
-    <img src="./picture/image_15.png" width="600">
-
 ## 可格式化的EDID樣式
+
+以下字符皆可忽略不計，適合稍微有些個人風格的文件
 
 * 帶有`0x`前綴
 * 帶有`-` `,`標點符號
 * 帶有`空格` `換行`命令字元
 
-以上都可以完全忽略，請參考範例
+使用時請注意文件內容，即使功能強大，仍然有需遵守的基本規矩，請參考範例
 
-* 帶有所有可忽略的格式EDID
+* 字元數須為128的倍數
+
+    <img src="./picture/image_16.png" width="600">
+
+    按下`Format!`會出現`Error parsing EDID: EDID length must be a multiple of 128 bytes`的錯誤提示
+
+    <img src="./picture/image_17.png" width="600">
+
+* 當你只是想要格式化某些資料，請勾選`Don't Care Rules`(特殊用途)
+
+    <img src="./picture/image_18.png" width="600">
+
+    按下`Format!`將不會提供錯誤訊息，會直接格式化內容
+    <img src="./picture/image_19.png" width="600">
+
+* 帶有所有可忽略的格式EDID(這是將一個正常的EDID做一些格式變化，屬於極端例子，請使用格式乾淨的內容運行)
 
     <img src="./picture/image_12.png" width="600">
 
 * Format!
 
     <img src="./picture/image_13.png" width="600">
+
+## 贊助
+
+如果這對你的幫助勝過於每月的AI訂閱費用，請不吝嗇於支持我，因為這些看似簡單的小工具可能花費我半年甚至更多的時間完成
+
+[Buy Me a Coffee](<https://buymeacoffee.com/z123477788e>)
+
+---
+
+*本工具幫助工程師更快速、準確地分析EDID資料，提升顯示器相關問題的排查效率。*
